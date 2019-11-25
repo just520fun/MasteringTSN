@@ -23,9 +23,13 @@ For details , please visit Time-Sensitive Networking (TSN) Task Group https://1.
 
 3.TSN Prototype
 
+3.0 Preparation
+Descirbe how to setup hardware and software based on Intel I210 NIC card with IPC.
+For details, please visit folder 3.0-Preparation.
+
 3.1 802.1AS
 Describe how to build a 802.1AS prototype based on Intel I210 NIC card with IPC.
-For details, please visit folder 8021as.
+For details, please visit folder 3.1-8021as.
 
 3.2 802.1Qbv
 

@@ -1,0 +1,195 @@
++linuxptp Features
+Supports hardware and software time stamping via the Linux SO_TIMESTAMPING socket option.
+Supports the Linux PTP Hardware Clock (PHC) subsystem by using the clock_gettime family of calls, including the clock_adjtimex system call.
+Implements Boundary Clock (BC), Ordinary Clock (OC) and Transparent Clock (TC).
+Transport over UDP/IPv4, UDP/IPv6, and raw Ethernet (Layer 2).
+Supports IEEE 802.1AS-2011 in the role of end station.
+Modular design allowing painless addition of new transports and clock servos.
+Implements unicast operation.
+Supports a number of profiles, including:
+The automotive profile
+The default 1588 profile.
+The enterprise profile.
+The telecom profiles G.8265.1, G.8275.1, and G.8275.2.
+Supports the NetSync Monitor protocol.
+Implements Peer to peer one-step.
+Supports bonded, IPoIB, and vlan interfaces.
+
++ System Requirements
+In order to run this software, you need Linux kernel version 3.0 or newer. Check whether your network interface supports PTP with the following command.
+ethtool -T <eth0>
+This command shows whether a MAC supports hardware or software time stamping. The following example output indicates support for hardware time stamping.
+
+Time stamping parameters for eth6:
+Capabilities:
+        hardware-transmit     (SOF_TIMESTAMPING_TX_HARDWARE)
+        software-transmit     (SOF_TIMESTAMPING_TX_SOFTWARE)
+        hardware-receive      (SOF_TIMESTAMPING_RX_HARDWARE)
+        software-receive      (SOF_TIMESTAMPING_RX_SOFTWARE)
+        software-system-clock (SOF_TIMESTAMPING_SOFTWARE)
+        hardware-raw-clock    (SOF_TIMESTAMPING_RAW_HARDWARE)
+PTP Hardware Clock: 1
+Hardware Transmit Timestamp Modes:
+        off                   (HWTSTAMP_TX_OFF)
+        on                    (HWTSTAMP_TX_ON)
+Hardware Receive Filter Modes:
+        none                  (HWTSTAMP_FILTER_NONE)
+        all                   (HWTSTAMP_FILTER_ALL)
+The next example shows the case where the MAC only supports software time stamping. The ptp4l program requires either the -S command line argument or the time_stamping software configuration option when using such interfaces.
+
+Time stamping parameters for enp1s0:
+Capabilities:
+        software-transmit     (SOF_TIMESTAMPING_TX_SOFTWARE)
+        software-receive      (SOF_TIMESTAMPING_RX_SOFTWARE)
+        software-system-clock (SOF_TIMESTAMPING_SOFTWARE)
+PTP Hardware Clock: none
+Hardware Transmit Timestamp Modes: none
+Hardware Receive Filter Modes: none
+Note the software-transmit (SOF_TIMESTAMPING_TX_SOFTWARE) capability. If this is lacking, then the MAC cannot be used at all. However, adding this capability entails adding a single line of code to the device driver.
+
+
+
+1.Installation linuxptp 1.8
+Untuntu 18.04 has already prepare one deb package for Linuxptp 1.8:
+  Sudo apt install linuxptp
+
+This will install the linuxptp 1.8 version which will support IEEE1588v2 and 802.1AS.
+
+linuxptp will be installed as linux service, if you want to check the status of linuxptp, you can use:
+
++check status:
+service ptp4l status
+
+Since Intel I210 NIC card change the interface name to enp1s0/enp2s0/ens0 and so on, the ptp4l service does not work properly by default.
+you can know the lastest interface name by tyep:
+  ifconfig
+if the card is not up, you can try:
+  ifconfig -a
+
+Then you need change the ptp4l configuration:
+  cd /lib/systemd/system/linuxptp
+  #root is asked to config service configuration
+  sudo vi ptp4l.conf
+
+  "ExecStart=/usr/local/sbin/linuxptp -f /etc/default/linuxptp/ptp4l.conf -i <eth0>"
+
+  change the <eth0> to your interface name,  it is enp1s0 on my IPC.
+
+By default the configuration is for IEEE1588v2, if 802.1AS needs to be provide, the ptp4l.conf shall be changed like this (refer to linuxptp 2.0 configs gPTP.cfg):
+
+#
+# 802.1AS example configuration containing those attributes which
+# differ from the defaults.  See the file, default.cfg, for the
+# complete list of available options.
+#
+[global]
+gmCapable		1
+priority1		248
+priority2		248
+logAnnounceInterval	0
+logSyncInterval		-3
+syncReceiptTimeout	3
+neighborPropDelayThresh	800
+min_neighbor_prop_delay	-20000000
+assume_two_step		1
+path_trace_enabled	1
+follow_up_info		1
+transportSpecific	0x1
+ptp_dst_mac		01:80:C2:00:00:0E
+network_transport	L2
+delay_mechanism		P2P
+tx_timestamp_timeout    10
+
++start stop restate control/reload service
+service ptp4l start
+service ptp4l stop
+service ptp4l restart
+systemctl daemon-reload
+
+
+
+
+
+2.Installation linuxptp 2.0
+If you want to upgrade to lastest verion 2.0, please followup:
+
++ donwload linuxptp
+Please visit http://linuxptp.sourceforge.net to download the latest verion, so far it is linuxptp-2.0.tgz.
+tar -xzvf linxuptp-2.0.tgz
+cd linuxptp-2.0
+
++compile linuxptp
+make
+
++install linuptp
+sudo make install
+
++copy configuration
+sudo cp ./configs /usr/local/sbin/ -r
+
+
++check linuxptp
+/usr/local/sbin/linuxptp -f ./configs/gPTP.cfg -i enp1s0 -mq
+
+If you compiled your own kernel (and the headers are not installed into the system path), then you should set the KBUILD_OUTPUT environment variable as in the example, above.
+In order to install the programs and man pages into /usr/local, run the 'make install' target. You can change the installation directories by setttings the variables prefix, sbindir, mandir, and man8dir on the make command line.
+
+you have to mannully setup the service or use startptp.sh as bellow to start and control the linuptp:
+/usr/local/sbin/linuxptp -f ./configs/gPTP.cfg -i enp1s0 -mq
+/usr/local/sbin/phy2sys -i enp1s0 -w -m
+
+
+
+
+Amendment
+PTP4L(LinuxPTP)
+The Linux PTP Project
+http://linuxptp.sourceforge.net/
+
+Mailing Lists
+https://sourceforge.net/p/linuxptp/mailman/linuxptp-users/
+
+ptp4l man page
+https://www.mankier.com/8/ptp4l#Synopsis
+http://manpages.ubuntu.com/manpages/xenial/man8/ptp4l.8.html
+
+
+Configuring_PTP_Using_ptp4l
+https://docs.fedoraproject.org/en-US/fedora/rawhide/system-administrators-guide/servers/Configuring_PTP_Using_ptp4l/
+
+
+
+ptp4l vs ptpd
+https://linuxptp-devel.narkive.com/5KZvURtw/ptp4l-vs-ptpd
+Both ptp4l and ptpd are implementations of a 1588 PTP daemon. Ptp4l was started
+by Richard Cochran after being unable to get traction in the ptpd community
+regarding his series of kernel patches which implemented proper PTP support in
+the kernel. The original ptpd code base is somewhat old, and cluttered, and
+difficult to maintain. It also has a goal of implementing PTP daemon application on
+multiple operating systems and previously was unwilling to take the hardware
+timestamping approach used by the PTP core. This may have changed since ptp4l
+was started.
+
+Many proprietary PTP stack implementations are based ontop of ptpd, and do not
+use the PTP core kernel module. PTP4l relies on the ptp core kernel module
+which can be implemented by network drivers to enable a ptp clock device
+which is used for hardware timestamping.
+
+Effectively, this project was started due to a difference in goal and opinion
+from the ptpd project.
+
+- Jake
+
+CPU Performance
+https://askubuntu.com/questions/523640/how-i-can-disable-cpu-frequency-scaling-and-set-the-system-to-performance
+https://blog.csdn.net/li528405176/article/details/82823922（Chinese Version）
+
+sudo nano /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+change "powersave" -> "performance"
+
+if it is readonly, don't forget to 
+  sudo chmod +w scaling_governor 
+before modification, 
+and
+  sudo chmod -w scaling_governor 
+after modification 
