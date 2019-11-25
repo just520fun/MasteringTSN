@@ -106,7 +106,9 @@ service ptp4l stop
 service ptp4l restart
 systemctl daemon-reload
 
-
++more log
+if you want to see more logs, you can use
+  tail -f /var/log/syslog | grep ptp4l
 
 
 
