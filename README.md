@@ -5,7 +5,7 @@ This is the step by step course to master TSN including TSN standard, TSN protot
 This course and all codes are under MIT license.For details, please visit https://opensource.org/licenses/mit-license/ .
 
 Begin license text.
-Copyright <2019> <Just520fun>
+Copyright <2019> <iknownothing>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
