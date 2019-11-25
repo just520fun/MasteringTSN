@@ -1,0 +1,126 @@
+1.Hardware
+IPC with I210
+Technically, all computers and/or devices with I210 are OK for this prototype. So far, IPC purchased from China Taobao https://m.tb.cn/h.eFoRval?sm=939094 with I210 customization is verified. You are encouraged to try on any of your platform witch supports TSN.
+
+
+2.Software
+Ubuntu 18.04 
+For details, please visit https://ubuntu.com/download/desktop
+Technically, all version kernel > 4.19 are OK for this prototype. So far, this prototype is only verified based on Ubuntu 18.04. You are encouraged to try on your faviourate distro and kernel version with your community.
+
+Actually new version of drivers is installed by default with Ubuntu 18.04.3, you DONOT need install old version unless you want to modify the driver source code accoring to your project.
+Remember, always type:
+  sudo apt update
+  sudo apt upgrade
+with choosing the right Ubuntu server at Software Update-> Setting before install other software.
+
+
+3.Intel I210 Driver:
+Intel® Ethernet Controller I210 datasheet
+https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/i210-ethernet-controller-datasheet.pdf
+
+Download
+https://downloadcenter.intel.com/download/13663/Intel-Network-Adapter-Driver-for-82575-6-82580-I350-and-I210-211-Based-Gigabit-Network-Connections-for-Linux-?product=68668
+
+igb Linux* Base Driver for Intel(R) Ethernet Network Connection:
+https://downloadmirror.intel.com/13663/eng/readme.txt
+
+ 
+Overview
+========
+This driver supports kernel versions 2.6.30 or newer.
+
+Driver information can be obtained using ethtool, lspci, and ifconfig.
+Instructions on updating ethtool can be found in the section Additional
+Configurations later in this document.
+This driver is only supported as a loadable module at this time. Intel is not
+supplying patches against the kernel source to allow for static linking of the
+drivers.
+
+For questions related to hardware requirements, refer to the documentation
+supplied with your Intel adapter. All hardware requirements listed apply to use
+with Linux.
+
+The driver information previously displayed in the /proc file system is not
+supported in this release.
+
+The igb driver supports IEEE 1588 time stamping for kernels 2.6.30 and newer.
+
+The igb driver supports 2.5 Gbps operating speed on 2500BASE-KX only for
+I354-based network connections.
+
+This driver no longer supports Itanium(R)-based systems.
+
+
+Identifying Your Adapter
+========================
+For information on how to identify your adapter, and for the latest Intel
+network drivers, refer to the Intel Support website:
+http://www.intel.com/support
+
+
+Building and Installation
+=========================
+To build a binary RPM* package of this driver, run 'rpmbuild -tb
+igb-<x.x.x>.tar.gz', where <x.x.x> is the version number for the driver tar
+file.
+
+Note: For the build to work properly, the currently running kernel MUST match
+the version and configuration of the installed kernel sources. If you have just
+recompiled the kernel reboot the system before building.
+
+- To compile the driver on some kernel/arch combinations, a package with the
+development version of libelf (e.g. libelf-dev, libelf-devel,
+elfutilsl-libelf-devel) may need to be installed.
+
+Note: RPM functionality has only been tested in Red Hat distributions.
+
+
+1. Move the base driver tar file to the directory of your choice. For
+   example, use '/home/username/igb' or '/usr/local/src/igb'.
+
+2. Untar/unzip the archive, where <x.x.x> is the version number for the
+   driver tar file:
+   tar zxf igb-<x.x.x>.tar.gz
+
+3. Change to the driver src directory, where <x.x.x> is the version number
+   for the driver tar:
+   cd igb-<x.x.x>/src/
+
+4. Compile the driver module:
+   # make install
+   The binary will be installed as:
+   /lib/modules/<KERNEL VERSION>/updates/drivers/net/ethernet/intel/igb/igb.ko
+
+   The install location listed above is the default location. This may differ
+   for various Linux distributions.
+
+5. Load the module using the modprobe command:
+   modprobe <igb> [parameter=port1_value,port2_value]
+
+   Make sure that any older igb drivers are removed from the kernel before
+   loading the new module:
+   rmmod igb; modprobe igb
+
+6. Assign an IP address to the interface by entering the following,
+   where ethX is the interface name that was shown in dmesg after modprobe:
+  
+   ip address add <IP_address>/<netmask bits> dev ethX
+
+7. Verify that the interface works. Enter the following, where IP_address
+   is the IP address for another machine on the same subnet as the interface
+   that is being tested:
+   ping <IP_address>
+
+To build igb driver with DCA
+----------------------------
+If your kernel supports DCA, the driver will build by default with DCA enabled.
+
+Note: For certain distributions like (but not limited to) RedHat Enterprise
+Linux 7 and Ubuntu, once the driver is installed the initrd/initramfs file may
+need to be updated to prevent the OS loading old versions of the igb driver.
+The dracut utility may be used on RedHat distributions:
+	# dracut --force
+   For Ubuntu:
+	# update-initramfs -u
+
