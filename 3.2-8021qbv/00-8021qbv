@@ -1,0 +1,66 @@
+
+TAPRIO
+
+#TAS scheduler
+--gates-s2s3.sched-- 
+S 08 100000
+S 01 100000
+S 02 100000
+S 04 200000
+S 08 100000
+S 01 100000
+S 02 100000
+S 04 200000
+
+--queue-s2.cfg--
+# PRIORITY QUEUE [ETF] [DELTA]
+5 0
+3 1
+7 2
+
+--tsn_prio5-s1s2s3.cfg--
+cycle_time         1000000
+priority           5
+number_of_windows  2
+
+window_1_offset    100000
+window_1_duration  100000
+window_1_packets   1
+
+window_2_offset    600000
+window_2_duration  100000
+window_2_packets   1
+
+--tsn_prio3-s1s2s3.cfg--
+cycle_time         1000000
+priority           3
+number_of_windows  2
+
+window_1_offset    200000
+window_1_duration  100000
+window_1_packets   1
+
+window_2_offset    700000
+window_2_duration  100000
+window_2_packets   1
+
+
+
+#TAPRIO format
+base time set to 10s from now
+queues offset 0 count 1 offset 1 count 1 offset 2 count 1 offset 3 count 1
+clockid TAI base-time 
+index 0 cmd S gatemask 0x8 interval 100000
+index 1 cmd S gatemask 0x1 interval 100000
+index 2 cmd S gatemask 0x2 interval 100000
+index 3 cmd S gatemask 0x4 interval 200000
+index 4 cmd S gatemask 0x8 interval 100000
+index 5 cmd S gatemask 0x1 interval 100000
+index 6 cmd S gatemask 0x2 interval 100000
+index 7 cmd S gatemask 0x4 interval 200000
+
+
+
+Refer to :
+https://github.com/intel/iotg_tsn_ref_sw
+https://www.kalycito.com/open62541-commercial-partner
