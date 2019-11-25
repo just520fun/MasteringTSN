@@ -22,4 +22,20 @@ A Chinese version of Why MIT grants all rights including coptright and patents: 
 For details , please visit Time-Sensitive Networking (TSN) Task Group https://1.ieee802.org/tsn/ .
 
 3.TSN Prototype
+3.1 802.1AS
+Describe how to build a 802.1AS prototype based on Intel I210 NIC card with IPC.
+For details, please visit folder 8021as.
+
+3.2 802.1Qbv
+
+3.3 802.1Qbu
+
+3.4 802.1Qcc
+
+3.5 802.1Qci
+
+3.6 802.1Qch
+
+3.7 802.1CB
+
 TBD
