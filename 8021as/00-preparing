@@ -124,7 +124,7 @@ The dracut utility may be used on RedHat distributions:
 	# update-initramfs -u
 
 
-4.Linux PREEMPT-RT Kernel compilation
+4.Linux PREEMPT-RT Kernel installation
 Preempt-RT Reference articls:
 https://rt.wiki.kernel.org/index.php/RT_PREEMPT_HOWTO
 https://stackoverflow.com/questions/26311757/what-is-rt-preempt-how-is-it-different-from-preempt-rt-does-these-mean-same-re
@@ -151,7 +151,7 @@ This tutorial about how to install preempt-rt kernel on ubuntu 18.04.
 
 + install some require packages
 sudo apt-get install libssl-dev quilt flex bison libncurses-dev elfutils openssh-server build-essential libnuma-dev bc libssl-dev libelf-dev -y
-sudo apt-get install libmbedtls-dev python-six cmake git sudo net-tools vlan ethtool -y
+sudo apt-get install libmbedtls-dev python-six cmake git sudo net-tools vlan ethtool tcpdump -y
 
 + download kernel and patch
 cd ~/Downloads
@@ -179,17 +179,43 @@ select Network configuation -> General option -> 802.1q , and VLAN manipulation,
 select Memory Debugging --> Check for stack overflows ( already deselect so dont select this -just check)
 save and exit
 
-+ compile kernel
++ compile and install kernel
 make -j8 ( if you have a cpu 8 core)
 sudo make modules_install -j8
 sudo make install -j8
 
-+ now, check new kernel
++check new kernel
 cd /boot
 ls
 you will see somethings like initrd.img-5.0.21-rt16, vmlinuz-5.0.21-rt16, and config-5.0.21-rt16
 
-
-+ reboot 
++check kernel
+reboot 
 check kernel by : uname -r or uname -a
 
+
+5.iproute2 installation
+Since we will use tc qdisc for traffic control in TSN, we would like to introduct all lastest tc qdisc for prototyping, which including ETF MQPRIO and TAPRIO.
+All these lastest tc qdisc is not installed by Ubuntu distro and PREEMPT-RT kernel and mod, so lastest iproute2 is asked to install.
+*Caution: "sudo apt install iproute2" does not work properly, cause the iproute2 installed is not the lastest suitable modules.
+
++download iproute2
+wget https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.0.0.tar.gz
+tar -xzvf iproute2-5.0.0.tar.gzz
+
++compile iproute2
+cd iproute2-5.0.0/
+make all
+
++install iproute2
+sudo make install
+
++check the tc qdisc is well installed
+tc qdisc add etf help
+tc qdisc add taprio help
+tc qdisc add mqprio help
+
++check vlan
+vconfig <interface> <vlanid>
+
+So far everything is well prepared, let's move on.
