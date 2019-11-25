@@ -23,9 +23,8 @@ Download
 https://downloadcenter.intel.com/download/13663/Intel-Network-Adapter-Driver-for-82575-6-82580-I350-and-I210-211-Based-Gigabit-Network-Connections-for-Linux-?product=68668
 
 igb Linux* Base Driver for Intel(R) Ethernet Network Connection:
-https://downloadmirror.intel.com/13663/eng/readme.txt
+https://downloadmirror.intel.com/13663/eng/readme.txt all rights are asked to follow Intel licensed in this package. 
 
- 
 Overview
 ========
 This driver supports kernel versions 2.6.30 or newer.
@@ -123,4 +122,74 @@ The dracut utility may be used on RedHat distributions:
 	# dracut --force
    For Ubuntu:
 	# update-initramfs -u
+
+
+4.Linux PREEMPT-RT Kernel compilation
+Preempt-RT Reference articls:
+https://rt.wiki.kernel.org/index.php/RT_PREEMPT_HOWTO
+https://stackoverflow.com/questions/26311757/what-is-rt-preempt-how-is-it-different-from-preempt-rt-does-these-mean-same-re
+
+(Chinese)Linux硬实时和Preempt-RT补丁(中断、软中断、调度、内存与调试) 
+  http://news.eeworld.com.cn/mp/ymc/a52869.jspxubuntu安装实时RT-PREEMPT内核补丁
+  https://blog.csdn.net/uanjj/article/details/88830668
+  https://blog.csdn.net/x356982611/article/details/77370385
+
+Since Unbuntu 18.04.3 is using 5.0.0.3 version, the nearest RT version is 5.0.21 with 5.0.21-rt16:
+kernel download: 
+http://www.kernel.org/pub/linux/kernel/v5.x
+https://www.kernel.org/pub/linux/kernel/projects/rt/5.0
+
+China Mirror:
+https://mirrors.tuna.tsinghua.edu.cn/kernel/v5.x
+https://mirrors.tuna.tsinghua.edu.cn/kernel/projects/rt/5.0/
+
+
+building linuxcnc-dev on ubuntu 16.04 preempt-rt kernel was created by thang
+https://forum.linuxcnc.org/9-installing-linuxcnc/33521-building-linuxcnc-dev-on-ubuntu-16-04-preempt-rt-kernel
+
+This tutorial about how to install preempt-rt kernel on ubuntu 18.04. 
+
++ install some require packages
+sudo apt-get install libssl-dev quilt flex bison libncurses-dev elfutils openssh-server build-essential libnuma-dev bc libssl-dev libelf-dev -y
+sudo apt-get install libmbedtls-dev python-six cmake git sudo net-tools vlan ethtool -y
+
++ download kernel and patch
+cd ~/Downloads
+wget https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-5.0.21.tar.gz
+wget https://mirrors.edge.kernel.org/pub/linux/kernel/projects/rt/5.0/patch-5.0.21-rt16.patch.gz
+
+tar -xzvf linux-5.0.21.tar.gz
+tar -xzvf patch-5.0.21-rt16.patch.gz
+
++ patch kernel
+cd linux-5.0.21
+patch -p1 < ../patch-5.0.21-rt16.patch --verbose
+
++ config kernel
+（if you want to duplicate all local mod/drivers which are already used, at first time you can use
+    make localmodconfig ）
+make menuconfig
+
++ The menuconfig appear
+select Processor type and features -> Preemption Model -> Fully Preemptible Kernel (RT) -> back to top menu
+
+use "/" to search vlan, and config all vlan feature one by one
+select Network configuation -> General option -> 802.1q , and VLAN manipulation, and so on
+
+select Memory Debugging --> Check for stack overflows ( already deselect so dont select this -just check)
+save and exit
+
++ compile kernel
+make -j8 ( if you have a cpu 8 core)
+sudo make modules_install -j8
+sudo make install -j8
+
++ now, check new kernel
+cd /boot
+ls
+you will see somethings like initrd.img-5.0.21-rt16, vmlinuz-5.0.21-rt16, and config-5.0.21-rt16
+
+
++ reboot 
+check kernel by : uname -r or uname -a
 
