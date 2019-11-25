@@ -2,7 +2,7 @@
 This is the step by step course to master TSN including TSN standard, TSN prototype, TSN scheduling algorithms etc.
 
 1.License
-This course and all codes are under MIT license.For details, please visit https://opensource.org/licenses/mit-license/.
+This course and all codes are under MIT license.For details, please visit https://opensource.org/licenses/mit-license/ .
 
 Begin license text.
 Copyright <2019> <Just520fun>
@@ -15,8 +15,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 End license text.
 
+A Chinese simplified version of comparing 5 different open source licenses: https://www.oschina.net/question/54100_9455
+A Chinese version of Why MIT grants all rights including coptright and patents: http://ju.outofmemory.cn/entry/353606
+
 2.TSN standards
-TBD
+For details , please visit Time-Sensitive Networking (TSN) Task Group https://1.ieee802.org/tsn/ .
 
 3.TSN Prototype
 TBD
