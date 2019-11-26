@@ -1,0 +1,23 @@
+How to install wireshark
+
++download and install wireshark
+sudo apt install wireshark
+
+When asking to allow non-root user to use wireshark, if you want to share the wireshark with local user instead of root only, you MAY choose YES.
+
++change the right
+if you want to share the wireshark with local user 
+
+#sudo groupadd wireshark 
+#sudo chgrp wireshark /usr/bin/dumpcap 
+sudo chmod 4755 /usr/bin/dumpcap 
+sudo gpasswd -a <your_local_user_name> wireshark 
+
+Bingo, so far everything is OK.
+You can choose the wireshark in application menu, and use it capture whatever interface and network traffic as your wish.
+
+Fire at will!
+
+
+Reference:
+1.https://my.oschina.net/vincentzhao/blog/503526 (Chinese)
