@@ -62,5 +62,8 @@ index 7 cmd S gatemask 0x4 interval 200000
 
 
 Refer to :
+TSN Reference Software for Linux
 https://github.com/intel/iotg_tsn_ref_sw
+
+OPC UA over TSN whitepaper
 https://www.kalycito.com/open62541-commercial-partner
