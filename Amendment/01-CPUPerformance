@@ -1,0 +1,13 @@
+CPU Performance
+https://askubuntu.com/questions/523640/how-i-can-disable-cpu-frequency-scaling-and-set-the-system-to-performance
+https://blog.csdn.net/li528405176/article/details/82823922（Chinese Version）
+
+sudo nano /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+change "powersave" -> "performance"
+
+if it is readonly, don't forget to 
+  sudo chmod +w scaling_governor 
+before modification, 
+and
+  sudo chmod -w scaling_governor 
+after modification 
