@@ -6,7 +6,7 @@ Technically, all computers and/or devices with I210 are OK for this prototype. S
 2.Software
 Ubuntu 18.04 
 For details, please visit https://ubuntu.com/download/desktop
-Technically, all version kernel > 4.19 are OK for this prototype. So far, this prototype is only verified based on Ubuntu 18.04. You are encouraged to try on your faviourate distro and kernel version with your community.
+Technically, all version kernel >= 4.20 are OK for this prototype. So far, this prototype is only verified based on Ubuntu 18.04. You are encouraged to try on your faviourate distro and kernel version with your community.
 
 Actually new version of drivers is installed by default with Ubuntu 18.04.3, you DONOT need install old version unless you want to modify the driver source code accoring to your project.
 Remember, always type:
