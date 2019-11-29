@@ -1,0 +1,10 @@
+setup ftpd
+https://blog.csdn.net/frank_abagnale/article/details/79378609(Chinese)
+
+$ sudo apt install vsftpd
+$ netstat -tnl
+
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 :::21                   :::*                    LISTEN     
+————————————————
+
