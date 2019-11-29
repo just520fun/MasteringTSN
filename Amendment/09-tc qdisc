@@ -1,0 +1,14 @@
+manpage
+https://www.linux.org/docs/man8/tc.html
+http://manpages.ubuntu.com/
+
+tc qdisc framework analysis
+https://blog.csdn.net/one_clouder/article/details/52685249 (Chinese)
+https://www.ituring.com.cn/article/274014 (Chinese)
+
+
+tc qdisc usage
+https://blog.csdn.net/who538592/article/details/79483323 (Chinese)
+
+tc qdisc development
+http://blog.chinaunix.net/uid-26902809-id-4106161.html
