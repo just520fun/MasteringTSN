@@ -116,9 +116,13 @@ if you want to see more logs, you can use
 If you want to upgrade to lastest verion 2.0, please followup:
 
 + donwload linuxptp
-Please visit http://linuxptp.sourceforge.net to download the latest verion, so far it is linuxptp-2.0.tgz.
+Please visit http://linuxptp.sourceforge.net to download the latest archive version, so far it is linuxptp-2.0.tgz.
 tar -xzvf linxuptp-2.0.tgz
 cd linuxptp-2.0
+
++ or, you can get lastest git version, so far it is slightly new than 2.0 (if you want to activate socket_priority configuration item, you need to use lastest version)
+git clone http://git.code.sf.net/p/linuxptp/code linuxptp
+cd linuxptp
 
 +compile linuxptp
 make
