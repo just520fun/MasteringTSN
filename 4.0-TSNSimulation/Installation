@@ -1,0 +1,64 @@
+Installtion step by step
+
+1. OS
+Linux, Windows, and MAC OS is all supported.
+
+2.Installation of OMNET++
+https://omnetpp.org/
+Installation Guild: https://omnetpp.org/doc/omnetpp/InstallGuide.pdf
+
+notice: Dependencies are strong related, LOOK OUT!
+
+e.g 
+OS: Unbuntu 16.04
+osgearth: 2.7
+Java: openjdk8
+OMNET++: 5.4.1
+INet: 4.1.0
+NeSTing
+
+or 
+OS: Unbuntu 18.04
+osgearth: 2.10
+Java: openjdk11
+OMNET++: 5.5.1
+INet: 4.1.2
+NeSTing
+
+3.INet
+Install from OMNET++ Menu Help -> Install Simulation Models -> INet x.x.x
+
+or
+Download from OMNET++
+  https://inet.omnetpp.org/
+  or
+  https://github.com/inet-framework/inet/releases
+
+Extract the tgz file and move to 
+  omnetpp-x.x.x/samples/
+  rename inet4 to inet (all inet based code will #include "inet/xxxx.h")
+DO NOT use inet4 and compile outside this fold, otherwise you will meet the compile error again and again.
+
+Open OMNET++ IDE and choose omnetpp-x.x.x/samples/ as root, then you can right click the inet in Project Explore and choose build project.
+
+4.NeSTing
+Follow the guide of https://gitlab.com/ipvs/nesting 
+
+or
+Simply download the git with nesting-master.tar.gz from https://gitlab.com/ipvs/nesting
+extract the 
+  nesting-master.tar.gz 
+and move to  
+  omnetpp-x.x.x/samples/ 
+and rename to 
+  omnetpp-x.x.x/samples/nesting
+
+Open OMNET++ IDE and choose omnetpp-x.x.x/samples/ as root, then you can right click the nesting in Project Explore and choose build project.
+
+NOW, you can run the simulation with right click nesting in Project Explore, and choose 
+  Run As or Debug As -> OMNeT++ Simulation
+
+OMNeT++ will choose the right profile configuration and build to run the simuation.
+
+
+After running the samples, you can program and add your own simulations for further research and development.
