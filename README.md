@@ -43,6 +43,13 @@ For details, please visit folder 3.1-8021as.
 
 3.7 802.1CB
 
+4.TSN Simulation
+NeSTiNg: Simulating IEEE Time-sensitive Networking (TSN) in OMNeT++
+https://1.ieee802.org/protocol-simulations/
+Paper https://ieeexplore.ieee.org/abstract/document/8854500
+Code https://gitlab.com/ipvs/nesting
+
+
 Amendment
 
 TBD
