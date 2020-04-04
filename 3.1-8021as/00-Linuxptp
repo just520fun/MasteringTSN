@@ -67,15 +67,15 @@ if the card is not up, you can try:
   ifconfig -a
 
 Then you need change the ptp4l configuration:
-  cd /lib/systemd/system/linuxptp
+  cd /lib/systemd/system
   #root is asked to config service configuration
-  sudo vi ptp4l.conf
+  sudo vi ptp4l.service
 
   "ExecStart=/usr/local/sbin/linuxptp -f /etc/default/linuxptp/ptp4l.conf -i <eth0>"
 
   change the <eth0> to your interface name,  it is enp1s0 on my IPC.
 
-By default the configuration is for IEEE1588v2, if 802.1AS needs to be provide, the ptp4l.conf shall be changed like this (refer to linuxptp 2.0 configs gPTP.cfg):
+By default the configuration is for IEEE1588v2, if 802.1AS needs to be provide, the ptp4l.conf file listed in above fold shall be changed like this (refer to linuxptp 2.0 configs gPTP.cfg):
 
 #
 # 802.1AS example configuration containing those attributes which
