@@ -71,7 +71,7 @@ Then you need change the ptp4l configuration:
   #root is asked to config service configuration
   sudo vi ptp4l.service
 
-  "ExecStart=/usr/local/sbin/linuxptp -f /etc/default/linuxptp/ptp4l.conf -i <eth0>"
+  "ExecStart=/usr/sbin/ptp4l -f /etc/linuxptp/ptp4l.conf -i <eth0>"
 
   change the <eth0> to your interface name,  it is enp1s0 on my IPC.
 
